@@ -1,0 +1,81 @@
+1.1
+function* randomGenerator(n, m) {
+    while (true) {
+        yield Math.floor(Math.random() * (m - n + 1) + n);
+    }
+}
+
+const generator = randomGenerator(1, 100);
+console.log(generator.next().value); // Выводит случайное число от 1 до 100
+
+1.2
+function pythagoreanSequence() {
+    let a = 2, b = 1;
+    while (true) {
+        [a, b] = [b, a + b];
+        yield a;
+    }
+}
+
+const pythagorean = pythagoreanSequence();
+console.log(pythagorean.next().value); // Выводит число из последовательности Падована
+
+1.3
+function* primeGenerator() {
+    let current = 2;
+    while (true) {
+        if (isPrime(current)) {
+            yield current;
+        }
+        current++;
+    }
+}
+
+function isPrime(num) {
+    for (let i = 2, sqrt = Math.sqrt(num); i <= sqrt; i++) {
+        if (num % i === 0) return false;
+    }
+    return num > 1;
+}
+
+const primes = primeGenerator();
+console.log(primes.next().value); // Выводит первое простое число
+
+2.1
+function countLetters(str) {
+    const letterCounts = new Map();
+    for (const letter of str) {
+        letterCounts.set(letter, (letterCounts.get(letter) || 0) + 1);
+    }
+    return letterCounts;
+}
+
+console.log(countLetters('hello world')); // Map { 'h' => 1, 'e' => 1, 'l' => 3, 'o' => 2, ' ' => 1, 'w' => 1, 'r' => 1, 'd' => 1 }
+
+2.2
+function* primeNumbers() {
+    let current = 2n;
+    while (true) {
+        if (isPrimeBigInt(current)) {
+            yield current;
+        }
+        current++;
+    }
+}
+
+function isPrimeBigInt(num) {
+    for (let i = 2n, sqrt = BigInt(Math.sqrt(Number(num))); i <= sqrt; i++) {
+        if (num % i === 0n) return false;
+    }
+    return num > 1n;
+}
+
+function getPrime(n) {
+    const primes = primeNumbers();
+    let count = 0;
+    for (let prime of primes) {
+        if (++count === n) return prime;
+    }
+}
+
+console.log(getPrime(1000)); // Выводит 1000-е простое число
